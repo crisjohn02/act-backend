@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "mysql2": "^3.6.1",
+    "sequelize": "^6.33.0",
+    "yargs": "^17.7.2"
+  }
+}

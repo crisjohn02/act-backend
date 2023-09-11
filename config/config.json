@@ -1,0 +1,24 @@
+{
+    "development": {
+      "username": "root",
+      "password": "secret",
+      "database": "ast2",
+      "host": "localhost",
+      "dialect": "mysql"
+    },
+    "test": {
+      "username": "fluent2_user",
+      "password": "hBiJQiCK7oj4",
+      "database": "fluent2_ide",
+      "host": "localhost",
+      "dialect": "mysql"
+    },
+    "production": {
+      "username": "fluent2_user",
+      "password": "hBiJQiCK7oj4",
+      "database": "fluent2_ide",
+      "host": "localhost",
+      "dialect": "mysql"
+    }
+  }
+  
