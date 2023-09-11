@@ -2,7 +2,7 @@
     "development": {
       "username": "root",
       "password": "secret",
-      "database": "ast2",
+      "database": "ast",
       "host": "localhost",
       "dialect": "mysql"
     },

@@ -1,6 +1,6 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
 
-const sequelize = new Sequelize('ast2', 'root', 'secret', {
+const sequelize = new Sequelize('ast', 'root', 'secret', {
     host: 'localhost',
     dialect: 'mysql'
   });
@@ -62,25 +62,13 @@ Survey.hasMany(Test, {
 
 Test.belongsTo(Survey, {
   foreignKey: 'survey_id'
-})
+});
 
-  try {
-    // sequelize.authenticate().then(() => {
-    //   Survey.findByPk(15).then(res => {
-    //       console.log(res);
-    //   });
-    // }).finally(() => {
-    //   sequelize.close()
-    // });
-    Survey.findOne({
-      where: {
-        id: 15
-      },
-      include: 'tests'
-    }).then(res => {
-      console.log(JSON.stringify(res, null, 2));
-    }).finally(() => sequelize.close());
-    
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
+Survey.findOne({
+    where: {
+        id: 3642
+    },
+    include: 'tests'
+}).then(res => {
+    console.log(JSON.stringify(res.tests));
+}).finally(() => sequelize.close() );
