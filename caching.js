@@ -1,64 +1,21 @@
-const { Sequelize, Model, DataTypes } = require('sequelize');
+const filter = require('lodash/filter');
+const head = require('lodash/head');
+const each = require('lodash/each');
+const fs = require('fs');
 
-const sequelize = new Sequelize('ast', 'root', 'secret', {
-    host: 'localhost',
-    dialect: 'mysql'
-  });
+// const { Sequelize, Model, DataTypes } = require('sequelize');
 
-class Survey extends Model {}
-
-Survey.init({
-    id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    config: {
-        type: DataTypes.JSON,
-        allowNull: true
-    }
-}, {
-    sequelize,
-    tableName: 'surveys',
-    timestamps: false,
-    modelName: 'Survey'
-});
-
-class Test extends Model {}
-
-Test.init({
-    id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    targets: {
-        type: DataTypes.JSON,
-        allowNull: true
-    },
-    primes: {
-        type: DataTypes.JSON,
-        allowNull: true
-    },
-    config: {
-        type: DataTypes.JSON,
-        allowNull: true
-    }
-}, {
-    sequelize,
-    tableName: 'tests',
-    timestamps: false,
-    modelName: 'Test'
-});
+const { Survey, Test, Record } = require('./models');
 
 Survey.hasMany(Test, {
   foreignKey: 'survey_id',
   as: 'tests'
-})
+});
+
+Survey.hasMany(Record, {
+    foreignKey: 'survey_id',
+    as: 'records'
+});
 
 Test.belongsTo(Survey, {
   foreignKey: 'survey_id'
@@ -66,9 +23,28 @@ Test.belongsTo(Survey, {
 
 Survey.findOne({
     where: {
-        id: 3642
+        id: 23
     },
-    include: 'tests'
+    include:['tests', 'records']
 }).then(res => {
-    console.log(JSON.stringify(res.tests));
-}).finally(() => sequelize.close() );
+
+    let tests = filter(res.tests, (v) => {
+        return v.config.main_trial === true && v.primes.length > 0;
+    });
+    //console.log(JSON.parse(JSON.stringify(tests)));
+
+    let logger = fs.createWriteStream('tests.txt', { flags: 'a'});
+    logger.write(JSON.stringify(tests));
+
+    //console.log(res.records.length);
+    let logger2 = fs.createWriteStream('responses.txt', { flags: 'a'});
+    const writeLine = (line) => logger2.write(`${line}\n`);
+    each(res.records, function (v) {
+        writeLine(JSON.stringify(v));
+    });
+
+}).finally(() => Survey.sequelize.close()); 
+
+// Test.findByPk(15).then(res => {
+//     console.log(res._targets);
+// }).finally(() => sequelize.close());

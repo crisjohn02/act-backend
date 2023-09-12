@@ -17,13 +17,19 @@ module.exports = (sequelize, DataTypes) => {
         },
         config: {
             type: DataTypes.JSON,
-            allowNull: true
+            allowNull: true,
+            get() {
+                return JSON.parse(this.getDataValue('config'));
+            },
+            set(value) {
+                this.setDataValue('config', JSON.stringify(value))
+            }
         }
     }, {
         sequelize,
         tableName: 'surveys',
         timestamps: false,
-        modelName: 'survey'
+        modelName: 'Survey'
     });
 
     return Survey;

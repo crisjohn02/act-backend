@@ -13,21 +13,39 @@ module.exports = (sequelize, DataTypes) => {
         },
         targets: {
             type: DataTypes.JSON,
-            allowNull: true
+            allowNull: true,
+            get() {
+                return JSON.parse(this.getDataValue('targets'));
+            },
+            set(value) {
+                this.setDataValue('targets', JSON.stringify(value))
+            }
         },
         primes: {
             type: DataTypes.JSON,
-            allowNull: true
+            allowNull: true,
+            get() {
+                return JSON.parse(this.getDataValue('primes'));
+            },
+            set(value) {
+                this.setDataValue('primes', JSON.stringify(value))
+            }
         },
         config: {
             type: DataTypes.JSON,
-            allowNull: true
+            allowNull: true,
+            get() {
+                return JSON.parse(this.getDataValue('config'));
+            },
+            set(value) {
+                this.setDataValue('config', JSON.stringify(value))
+            }
         }
     }, {
         sequelize,
         tableName: 'tests',
         timestamps: false,
-        modelName: 'test'
+        modelName: 'Test'
     });
 
     return Test;
