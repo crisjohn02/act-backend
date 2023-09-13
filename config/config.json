@@ -1,10 +1,21 @@
 {
     "development": {
-      "username": "root",
-      "password": "secret",
-      "database": "ast3",
-      "host": "localhost",
-      "dialect": "mysql"
+      "databases": {
+        "fluent": {
+          "username": "root",
+          "password": "secret",
+          "database": "fluent_prod",
+          "host": "localhost",
+          "dialect": "mysql"
+        },
+        "act": {
+          "username": "root",
+          "password": "secret",
+          "database": "ast3",
+          "host": "localhost",
+          "dialect": "mysql"
+        }
+      }
     },
     "test": {
       "username": "fluent2_user",
